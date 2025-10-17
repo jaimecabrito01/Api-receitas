@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.ReceitaDTO;
-import com.example.api.dto.UserDTO;
 import com.example.api.entity.Receita;
 import com.example.api.entity.User;
 import com.example.api.repository.ReceitaRepository;

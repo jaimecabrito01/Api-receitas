@@ -30,19 +30,19 @@ public class UserService {
 
     }
 
-    public void delete(UserDTO dto) {
+    public void delete(Long dto) {
 
-        userRepository.deleteById(dto.getId());
+        userRepository.deleteById(dto);
     }
-    public User update(UserCreateDTO dto,UserDTO id){
-       User newUser =  userRepository.findById(id.getId()).orElseThrow(()-> 
+    public void update(UserCreateDTO dto,Long id){
+       User newUser =  userRepository.findById(id).orElseThrow(()-> 
        new RuntimeException("usuario nao encontrado"));
        
        newUser.setEmail(dto.getEmail());
        newUser.setNome(dto.getName());
        newUser.setPassword(dto.getPassword());
 
-       return userRepository.save(newUser);
+        userRepository.save(newUser);
        
 
     }
