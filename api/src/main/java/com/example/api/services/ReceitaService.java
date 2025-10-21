@@ -34,8 +34,8 @@ public class ReceitaService {
         return receitaRepository.findAll();
     }
 
-    public void delete(Receita receita) {
-        receitaRepository.deleteById(receita.getId());
+    public void delete(Long id) {
+        receitaRepository.deleteById(id);
     }
 
     public Receita update(ReceitaDTO receita, Long id) {

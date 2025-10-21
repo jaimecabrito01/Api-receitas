@@ -15,35 +15,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    
+
     @Autowired
     private UserService service;
 
     @PostMapping("/create")
     public ResponseEntity postMethodName(@RequestBody UserCreateDTO userCreateDTO) {
-   
+
         return ResponseEntity.ok(service.create(userCreateDTO));
     }
+
     @GetMapping("/all")
     public ResponseEntity list() {
         return ResponseEntity.ok(service.list());
     }
+
     @PutMapping("/update/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody UserCreateDTO dto) {
         service.update(dto, id);
         return ResponseEntity.noContent().build();
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
-    
+
 }
