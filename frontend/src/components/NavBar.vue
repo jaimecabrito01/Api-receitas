@@ -1,47 +1,37 @@
 <template>
-  <nav class="navbar">
-    <h2>🍽️ Receitas</h2>
-    <div class="links">
-      <button @click="goToCreate">Criar Receita</button>
-      <button @click="goToMyRecipes">Minhas Receitas</button>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">🍽️ Receitas</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <button class="btn btn-light me-2" @click="goToCreate">Criar Receita</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-light" @click="goToMyRecipes">Minhas Receitas</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { useRouter } from "vue-router";
-
 const router = useRouter();
 
 function goToCreate() {
-  router.push("/create"); 
+  router.push("/create");
 }
 
-
+function goToMyRecipes() {
+  router.push("/my-recipes");
+}
 </script>
 
 <style scoped>
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ff7043;
-  padding: 1rem;
-  color: white;
-  border-radius: 0 0 10px 10px;
-}
 
-.links button {
-  margin-left: 0.5rem;
-  background-color: white;
-  color: #ff7043;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.links button:hover {
-  opacity: 0.8;
+body, #app {
+  padding-top: 70px; 
 }
 </style>
