@@ -38,6 +38,6 @@ onMounted(async () => {
 });
 
 function goToRecipe(id) {
-  router.push(`/recipe/${id}`);
+  router.push(`/receita/${id}`);
 }
 </script>
