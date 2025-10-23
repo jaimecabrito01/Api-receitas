@@ -1,6 +1,7 @@
 package com.example.api.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor   // gera o construtor padrão
+@NoArgsConstructor  
 @AllArgsConstructor 
 public class Receita {
     @Id
@@ -27,8 +28,8 @@ public class Receita {
 
     private String titulo;
     private String descricao;
-    private String ingredientes;
-    private String passos;
+    private List<String> ingredientes;
+    private List<String>  passos;
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne

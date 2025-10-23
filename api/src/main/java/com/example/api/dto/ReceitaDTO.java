@@ -1,52 +1,17 @@
 package com.example.api.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReceitaDTO {
     private String titulo;
     private String descricao;
     private Long userId;
-    private String ingredientes;
-    private String passos;
+    private List<String> ingredientes;
+    private List<String> passos;
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    public ReceitaDTO() {
-    }
-
-public ReceitaDTO(String titulo, String descricao, Long userId, String ingredientes, String passos,
-            LocalDateTime createdAt) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.userId = userId;
-        this.ingredientes = ingredientes;
-        this.passos = passos;
-        this.createdAt = createdAt;
-    }
-
     
-
-    public String getIngredientes() {
-        return ingredientes;
-    }
-
-    public void setIngredientes(String ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-
-    public String getPassos() {
-        return passos;
-    }
-
-    public void setPassos(String passos) {
-        this.passos = passos;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public ReceitaDTO() {
     }
 
     public String getTitulo() {
@@ -72,5 +37,40 @@ public ReceitaDTO(String titulo, String descricao, Long userId, String ingredien
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public List<String> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<String> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public List<String> getPassos() {
+        return passos;
+    }
+
+    public void setPassos(List<String> passos) {
+        this.passos = passos;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public ReceitaDTO(String titulo, String descricao, Long userId, List<String> ingredientes, List<String> passos,
+            LocalDateTime createdAt) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.userId = userId;
+        this.ingredientes = ingredientes;
+        this.passos = passos;
+        this.createdAt = createdAt;
+    }
+
     
 }

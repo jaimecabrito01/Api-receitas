@@ -28,7 +28,7 @@ const router = useRouter();
 
 onMounted(async () => {
   try {
-    const response = await api.get("/receitas");
+    const response = await api.get("/receitas/all");
     receitas.value = response.data;
   } catch (error) {
     console.error(error);

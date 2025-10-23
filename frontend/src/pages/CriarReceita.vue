@@ -93,6 +93,7 @@ const titulo = ref("");
 const descricao = ref("");
 const ingredientes = ref([""]);
 const passos = ref([""]);
+const userId = ref([""])
 
 function adicionarIngrediente() {
   ingredientes.value.push("");
@@ -114,6 +115,7 @@ async function criarReceita() {
   const payload = {
     titulo: titulo.value,
     descricao: descricao.value,
+    userId: 1,
     ingredientes: ingredientes.value,
     passos: passos.value,
     
@@ -126,6 +128,7 @@ async function criarReceita() {
     
     titulo.value = "";
     descricao.value = "";
+    userId.value =""
     ingredientes.value = [""];
     passos.value = [""];
     

@@ -16,6 +16,7 @@ import com.example.api.repository.UserRepository;
 public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
+    @Autowired
     private UserRepository userRepository;
 
     public Receita create(ReceitaDTO dto) {
@@ -25,6 +26,9 @@ public class ReceitaService {
         Receita receita = new Receita();
         receita.setTitulo(dto.getTitulo());
         receita.setDescricao(dto.getDescricao());
+        receita.setCreatedAt(LocalDateTime.now());
+        receita.setIngredientes(dto.getIngredientes());
+        receita.setPassos(dto.getPassos());
         receita.setUser(user);
 
         return receitaRepository.save(receita);
