@@ -1,11 +1,8 @@
 package com.example.api.security;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 import javax.crypto.spec.SecretKeySpec;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -19,9 +16,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 
@@ -36,14 +31,23 @@ public class SecurityConfig {
 
     @Bean
      SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            // 🔓 Desativa autenticação temporariamente
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate").permitAll()
-            .anyRequest().authenticated()).httpBasic(Customizer.withDefaults())
-            .oauth2ResourceServer(
-                conf -> conf.jwt(Customizer.withDefaults())
-            );
+      http
+      .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            // Endpoints públicos
+            .requestMatchers("/authenticate").permitAll()
+            .requestMatchers("/user/create").permitAll()
+            .requestMatchers("/receitas/all").permitAll()
+
+            // Endpoints que exigem autenticação
+            .requestMatchers("/receitas/add").authenticated()
+            .requestMatchers("/user/**").authenticated()
+
+            // Qualquer outro endpoint exige login também
+            .anyRequest().authenticated()
+        )
+        .httpBasic(Customizer.withDefaults())
+        .oauth2ResourceServer(conf -> conf.jwt(Customizer.withDefaults()));
             
                 
             
