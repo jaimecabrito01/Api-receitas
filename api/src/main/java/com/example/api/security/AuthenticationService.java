@@ -1,6 +1,6 @@
 package com.example.api.security;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
@@ -12,7 +12,7 @@ public class AuthenticationService {
         this.service = service;
     }
     
-    public String authenticate (Authentication authentication){
+    public String authenticate (UserDetails authentication){
         return service.getGeneratedToken(authentication);
     }
 }
