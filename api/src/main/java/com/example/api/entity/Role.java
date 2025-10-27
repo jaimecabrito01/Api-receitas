@@ -16,9 +16,9 @@ public class Role {
     @Column(name = "role_id")
     private Long Id;
 
-    private String name;
+    private String nome;
      public enum Values{
-        BASIC(2l),
+        basic(2l),
         ADMIN(1l);
 
         Long roleid;

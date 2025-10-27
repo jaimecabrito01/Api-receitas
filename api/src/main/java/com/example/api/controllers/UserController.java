@@ -32,7 +32,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/create")
-    public ResponseEntity postMethodName(@RequestBody UserCreateDTO userCreateDTO) {
+    public ResponseEntity create(@RequestBody UserCreateDTO userCreateDTO) {
 
       
         var user = userRepository.findByNome(userCreateDTO.getName());

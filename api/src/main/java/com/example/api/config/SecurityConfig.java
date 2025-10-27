@@ -34,7 +34,8 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/authenticate")
-                .permitAll().requestMatchers(HttpMethod.POST,"/receitas/all").permitAll().anyRequest().authenticated())
+                .permitAll().requestMatchers(HttpMethod.POST, "/receitas/all").permitAll()
+                .requestMatchers("/user/create").permitAll().anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
