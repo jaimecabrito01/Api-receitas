@@ -1,11 +1,17 @@
 package com.example.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.api.dto.UserCreateDTO;
+import com.example.api.entity.Role;
+import com.example.api.repository.RoleRepository;
+import com.example.api.repository.UserRepository;
 import com.example.api.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +27,18 @@ public class UserController {
 
     @Autowired
     private UserService service;
+   
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/create")
     public ResponseEntity postMethodName(@RequestBody UserCreateDTO userCreateDTO) {
+
+      
+        var user = userRepository.findByUsername(userCreateDTO.getName());
+        if(user.isPresent()){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
 
         return ResponseEntity.ok(service.create(userCreateDTO));
     }
