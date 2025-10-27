@@ -12,7 +12,7 @@ public class AuthenticationService {
         this.service = service;
     }
     
-    public String authenticate (UserDetails authentication){
+    public String authenticate (UserAu authentication){
         return service.getGeneratedToken(authentication);
     }
 }

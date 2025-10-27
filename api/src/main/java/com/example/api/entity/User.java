@@ -29,6 +29,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
+    private String login;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Receita> receitas;

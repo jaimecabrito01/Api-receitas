@@ -25,7 +25,7 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 @EnableWebSecurity
 public class SecurityConfig {
     
-      private static final String SECRET = "minha-chave-super-secreta-123";
+private static final String SECRET = "jK8xPq3nR5tU2vZ9yB1mD4sF7gH6kL0aN8eQ2rW5tY7uI1oP3zC6xV9bM4nJ";
 
     
 
