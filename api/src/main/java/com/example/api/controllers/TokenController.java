@@ -33,7 +33,7 @@ public class TokenController {
     @PostMapping("/authenticate")
     public ResponseEntity<LoginResponse> auth(@RequestBody LoginRequest loginRequest) {
 
-        var user = repository.findByUsername(loginRequest.username());
+        var user = repository.findByNome(loginRequest.username());
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, bCryptPasswordEncoder)) {
             throw new BadCredentialsException("usuario ou senha incorretos");

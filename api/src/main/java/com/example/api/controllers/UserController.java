@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity postMethodName(@RequestBody UserCreateDTO userCreateDTO) {
 
       
-        var user = userRepository.findByUsername(userCreateDTO.getName());
+        var user = userRepository.findByNome(userCreateDTO.getName());
         if(user.isPresent()){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
