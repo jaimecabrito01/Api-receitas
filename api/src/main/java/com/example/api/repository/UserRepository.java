@@ -11,6 +11,6 @@ import com.example.api.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
-    Optional<User> findByNome(String username);
+    Optional<User> findByEmail(String email);
     
 }

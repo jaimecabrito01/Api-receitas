@@ -9,6 +9,7 @@ import com.example.api.services.ReceitaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ public class ReceitaController {
     private ReceitaService service;
 
     @PostMapping("/add")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity create(@RequestBody ReceitaDTO receita) {
 
         return ResponseEntity.ok(service.create(receita));
@@ -35,12 +37,14 @@ public class ReceitaController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("isAuthenticated()")
     public Receita update(@PathVariable Long id, @RequestBody ReceitaDTO receita){
 
         return service.update(receita,id);
 
     }
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

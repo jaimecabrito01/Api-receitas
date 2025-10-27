@@ -31,11 +31,15 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    
+    
+   
+    
     @PostMapping("/create")
     public ResponseEntity create(@RequestBody UserCreateDTO userCreateDTO) {
 
       
-        var user = userRepository.findByNome(userCreateDTO.getName());
+        var user = userRepository.findByEmail(userCreateDTO.getEmail());
         if(user.isPresent()){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }

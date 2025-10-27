@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +26,7 @@ import com.nimbusds.jose.jwk.JWKSet;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     @Value("${jwt.public.key}")
     private RSAPublicKey pubKey;
@@ -33,7 +35,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/authenticate")
+        http
+        .cors(Customizer.withDefaults())
+        .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/authenticate")
                 .permitAll().requestMatchers(HttpMethod.POST, "/receitas/all").permitAll()
                 .requestMatchers("/user/create").permitAll().anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
