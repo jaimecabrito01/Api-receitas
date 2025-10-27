@@ -3,6 +3,7 @@ package com.example.api.security;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.AuthDTO;
+import com.example.api.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +22,19 @@ public class AuthenticationController {
   private UserDetailsServiceImpl userDetailsServiceImpl;
   @Autowired
   private PasswordEncoder passwordEncoder;
-  @PostMapping("/authenticate")
-  public ResponseEntity authenticate(@RequestBody  AuthDTO authentication) {
- UserAuthenticated userDetails = (UserAuthenticated) userDetailsServiceImpl.loadUserByUsername(authentication.getEmail());
+  @Autowired
+  private UserRepository repository;
 
-        // Verifica senha
-        if (!passwordEncoder.matches(authentication.getSenha(), userDetails.getPassword())) {
-            throw new RuntimeException("Senha inválida");
-        }
+    @PostMapping("/authenticate")
+     public ResponseEntity login(@RequestBody  AuthDTO data){
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        // Gera JWT
-        return ResponseEntity.ok(authenticationService.authenticate(userDetails));
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
+
   }
     
     
