@@ -1,78 +1,70 @@
 <template>
   <div class="container mt-5" style="max-width: 400px;">
-    <h2 class="text-center mb-4">🔐 Login</h2>
+    <h2 class="mb-4 text-center">🔐 Login</h2>
 
-    <div class="card shadow-sm p-4">
-      <form @submit.prevent="login">
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-            class="form-control"
-            placeholder="Digite seu email"
-            required
-          />
-        </div>
+    <form @submit.prevent="login">
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input
+          v-model="email"
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Digite seu e-mail"
+          required
+        />
+      </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Senha</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            class="form-control"
-            placeholder="Digite sua senha"
-            required
-          />
-        </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Senha</label>
+        <input
+          v-model="password"
+          type="password"
+          id="password"
+          class="form-control"
+          placeholder="Digite sua senha"
+          required
+        />
+      </div>
 
-        <button type="submit" class="btn btn-primary w-100" :disabled="loading">
-          {{ loading ? 'Entrando...' : 'Entrar' }}
-        </button>
+      <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+        {{ loading ? 'Entrando...' : 'Entrar' }}
+      </button>
 
-        <div v-if="error" class="alert alert-danger mt-3">
-          {{ error }}
-        </div>
-      </form>
-    </div>
+      <p v-if="error" class="text-danger mt-3 text-center">{{ error }}</p>
+    </form>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
+import { ref } from 'vue'
+import axios from 'axios'
 
-const email = ref("");
-const password = ref("");
-const loading = ref(false);
-const error = ref(null);
-const router = useRouter();
+const email = ref('')
+const password = ref('')
+const error = ref('')
+const loading = ref(false)
 
-const login = async () => {
-  loading.value = true;
-  error.value = null;
+async function login() {
+  error.value = ''
+  loading.value = true
 
   try {
-    const response = await axios.post("http://localhost:8080/authenticate", {
+    const response = await axios.post('http://localhost:8080/authenticate', {
       email: email.value,
-      senha: password.value,
-    });
+      password: password.value
+    })
 
-    // O backend deve retornar o token JWT
-    const token = response.data;
+    
+    localStorage.setItem('token', response.data.token)
+    alert('Login realizado com sucesso!')
 
-    // Salva no localStorage
-    localStorage.setItem("token", token);
-
-    // Redireciona para a página principal
-    router.push("/");
+   
+    window.location.href = '/receitas'
   } catch (err) {
-    error.value = "Credenciais inválidas. Tente novamente.";
+    error.value = 'E-mail ou senha incorretos.'
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
+}
 </script>
