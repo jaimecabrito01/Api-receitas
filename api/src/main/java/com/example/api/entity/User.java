@@ -3,6 +3,7 @@ package com.example.api.entity;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.hibernate.annotations.ManyToAny;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,9 +36,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="user_id",columnDefinition = "uuid")
+    private UUID id;
     @Column(unique = true)
     private String nome;
     private String email;

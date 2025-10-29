@@ -5,6 +5,8 @@ services:
     image: postgres:16
     container_name: receitas-db
     restart: unless-stopped
+
+    
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123

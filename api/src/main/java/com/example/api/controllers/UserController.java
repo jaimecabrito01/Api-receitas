@@ -1,5 +1,7 @@
 package com.example.api.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -31,10 +33,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    
-    
-   
-    
+
     @PostMapping("/create")
     public ResponseEntity create(@RequestBody UserCreateDTO userCreateDTO) {
 
@@ -53,13 +52,13 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody UserCreateDTO dto) {
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody UserCreateDTO dto) {
         service.update(dto, id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

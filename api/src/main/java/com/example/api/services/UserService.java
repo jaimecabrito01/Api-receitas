@@ -2,6 +2,7 @@ package com.example.api.services;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,11 +47,11 @@ public class UserService {
 
     }
 
-    public void delete(Long dto) {
+    public void delete(UUID dto) {
 
         userRepository.deleteById(dto);
     }
-    public void update(UserCreateDTO dto,Long id){
+    public void update(UserCreateDTO dto,UUID id){
        User newUser =  userRepository.findById(id).orElseThrow(()-> 
        new RuntimeException("usuario nao encontrado"));
        

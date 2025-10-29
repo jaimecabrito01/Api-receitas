@@ -1,5 +1,5 @@
 package com.example.api.dto;
 
-public record LoginResponse (String acessToken ,Long expiresIn){
+public record LoginResponse (String token ,Long expiresIn){
     
 }

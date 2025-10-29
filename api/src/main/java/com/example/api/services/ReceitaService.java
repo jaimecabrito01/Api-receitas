@@ -2,8 +2,10 @@ package com.example.api.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.ReceitaDTO;
@@ -19,8 +21,8 @@ public class ReceitaService {
     @Autowired
     private UserRepository userRepository;
 
-    public Receita create(ReceitaDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public Receita create(ReceitaDTO dto,JwtAuthenticationToken token) {
+        User user = userRepository.findById(UUID.fromString(token.getName()))
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         Receita receita = new Receita();
