@@ -10,6 +10,7 @@ import com.example.api.services.ReceitaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,9 +27,9 @@ public class ReceitaController {
 
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity create(@RequestBody ReceitaDTO receita) {
+    public ResponseEntity create(@RequestBody ReceitaDTO receita,JwtAuthenticationToken jwt) {
 
-        return ResponseEntity.ok(service.create(receita));
+        return ResponseEntity.ok(service.create(receita,jwt));
     }
 
     @GetMapping("/all")
@@ -38,14 +39,14 @@ public class ReceitaController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("isAuthenticated()")
-    public Receita update(@PathVariable Long id, @RequestBody ReceitaDTO receita){
+    public Receita update(@PathVariable Long id, @RequestBody ReceitaDTO receita,JwtAuthenticationToken jwt){
 
         return service.update(receita,id);
 
     }
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id,JwtAuthenticationToken jwt) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

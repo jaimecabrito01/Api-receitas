@@ -3,6 +3,7 @@ package com.example.api.entity;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.hibernate.annotations.ManyToAny;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +38,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
-    private Long id;
+    private UUID id;
     @Column(unique = true)
     private String nome;
     private String email;
