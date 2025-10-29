@@ -5,7 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.ReceitaDTO;
 import com.example.api.entity.Receita;
+import com.example.api.repository.UserRepository;
 import com.example.api.services.ReceitaService;
+
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,16 @@ public class ReceitaController {
 
     @Autowired
     private ReceitaService service;
+
+    @Autowired
+    private UserRepository repository;
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity me(@RequestBody JwtAuthenticationToken jwt){
+        var user = repository.findById(UUID.fromString(jwt.getName())).orElseThrow(()-> new RuntimeException("user not found"));
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
