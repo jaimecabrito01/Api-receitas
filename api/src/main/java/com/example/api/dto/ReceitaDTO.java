@@ -7,7 +7,6 @@ import java.util.UUID;
 public class ReceitaDTO {
     private String titulo;
     private String descricao;
-    private UUID userId;
     private List<String> ingredientes;
     private List<String> passos;
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -31,13 +30,7 @@ public class ReceitaDTO {
         this.descricao = descricao;
     }
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
+ 
 
     public List<String> getIngredientes() {
         return ingredientes;
@@ -63,11 +56,11 @@ public class ReceitaDTO {
         this.createdAt = createdAt;
     }
 
-    public ReceitaDTO(String titulo, String descricao, UUID userId, List<String> ingredientes, List<String> passos,
+    public ReceitaDTO(String titulo, String descricao, List<String> ingredientes, List<String> passos,
             LocalDateTime createdAt) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.userId = userId;
+    
         this.ingredientes = ingredientes;
         this.passos = passos;
         this.createdAt = createdAt;
