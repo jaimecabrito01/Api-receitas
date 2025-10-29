@@ -36,8 +36,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name="user_id",columnDefinition = "uuid")
     private UUID id;
     @Column(unique = true)
     private String nome;

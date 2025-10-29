@@ -2,11 +2,12 @@ package com.example.api.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class ReceitaDTO {
     private String titulo;
     private String descricao;
-    private Long userId;
+    private UUID userId;
     private List<String> ingredientes;
     private List<String> passos;
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -30,11 +31,11 @@ public class ReceitaDTO {
         this.descricao = descricao;
     }
 
-    public Long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
@@ -62,7 +63,7 @@ public class ReceitaDTO {
         this.createdAt = createdAt;
     }
 
-    public ReceitaDTO(String titulo, String descricao, Long userId, List<String> ingredientes, List<String> passos,
+    public ReceitaDTO(String titulo, String descricao, UUID userId, List<String> ingredientes, List<String> passos,
             LocalDateTime createdAt) {
         this.titulo = titulo;
         this.descricao = descricao;
