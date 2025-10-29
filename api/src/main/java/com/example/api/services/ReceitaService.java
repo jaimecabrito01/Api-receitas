@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.ReceitaDTO;
+import com.example.api.dto.ReceitaResponseDTO;
 import com.example.api.entity.Receita;
 import com.example.api.entity.User;
 import com.example.api.repository.ReceitaRepository;
@@ -36,8 +37,8 @@ public class ReceitaService {
         return receitaRepository.save(receita);
     }
 
-    public List<Receita> list() {
-        return receitaRepository.findAll();
+    public List<ReceitaResponseDTO> list() {
+        return receitaRepository.findAllReceitas();
     }
 
     public void delete(Long id) {

@@ -38,7 +38,7 @@ public class SecurityConfig {
         http
         .cors(Customizer.withDefaults())
         .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/authenticate")
-                .permitAll().requestMatchers(HttpMethod.GET, "/receitas/all").permitAll()
+                .permitAll().requestMatchers("/receitas/all").permitAll()
                 .requestMatchers("/user/create").permitAll().anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
