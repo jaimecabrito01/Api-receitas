@@ -6,14 +6,28 @@ import Login from "../pages/Login.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
-  { path: "/create", name: "CriarReceita", component: CriarReceita },
+  { path: "/create", name: "CriarReceita", component: CriarReceita, meta: {requiresAuth:true} },
   { path: "/register", name:"Registrar", component:Register},
   { path: "/login", name: "login", component:Login },
 ];
+
+
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token");
+
+  if (to.meta.requiresAuth && !token) {
+   
+    next("/login");
+  } else {
+    next();
+  }
+});
+
 
 export default router;

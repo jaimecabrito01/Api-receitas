@@ -85,6 +85,7 @@ async function registerUser() {
     name.value = "";
     email.value = "";
     password.value = "";
+    window.location.href = "/receitas"
   } catch (error) {
     console.error(error);
     errorMessage.value = "Erro ao cadastrar usuário.";

@@ -111,30 +111,37 @@ function removerPasso(index) {
   passos.value.splice(index, 1);
 }
 
+
+
 async function criarReceita() {
   const payload = {
     titulo: titulo.value,
     descricao: descricao.value,
-    userId: 1,
     ingredientes: ingredientes.value,
     passos: passos.value,
     
   };
 
+  
   try {
-    await api.post("/receitas/add", payload);
-    alert("Receita criada com sucesso!");
+    await api.post("/receitas/add", payload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
 
-    
+    alert("Receita criada com sucesso!");
     titulo.value = "";
     descricao.value = "";
-    userId.value =""
     ingredientes.value = [""];
     passos.value = [""];
-    
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao criar receita:", error);
     alert("Erro ao criar receita!");
   }
 }
+
+
+
+
 </script>
