@@ -55,10 +55,17 @@ public class UserService {
     public void update(UserCreateDTO dto,JwtAuthenticationToken jwt){
        User newUser =  userRepository.findById(UUID.fromString(jwt.getName())).orElseThrow(()-> 
        new RuntimeException("usuario nao encontrado"));
-       
-       newUser.setEmail(dto.getEmail());
+       if(dto.getEmail() != null  && !dto.getEmail().trim().isEmpty()){
+         newUser.setEmail(dto.getEmail());
+       }
+       if(dto.getName() != null && !dto.getName().trim().isEmpty()){
        newUser.setNome(dto.getName());
-       newUser.setPassword(dto.getPassword());
+
+       }
+       if(dto.getPassword() != null && ! dto.getPassword().trim().isEmpty()){
+      
+       newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+       }
 
         userRepository.save(newUser);
        

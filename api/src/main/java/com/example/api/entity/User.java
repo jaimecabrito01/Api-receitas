@@ -41,6 +41,7 @@ public class User {
     private UUID id;
     @Column(unique = true)
     private String nome;
+    @Column(unique = true)
     private String email;
     private String password;
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
