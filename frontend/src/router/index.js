@@ -4,13 +4,15 @@ import CriarReceita from "../pages/CriarReceita.vue";
 import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
 import EditarPerfil from "../pages/EditarPerfil.vue";
+import Receitas from "../pages/Receitas.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/create", name: "CriarReceita", component: CriarReceita, meta: {requiresAuth:true} },
   { path: "/register", name:"Registrar", component:Register},
   { path: "/login", name: "login", component:Login },
-  {path: "/editar-perfil",name:"editar-perfil",component: EditarPerfil,meta: {requiresAuth:true}}
+  {path: "/editar-perfil",name:"editar-perfil",component: EditarPerfil,meta: {requiresAuth:true}},
+  {path: "/editar-receita",name:"editar-receita",component: Receitas,meta:{requiresAuth:true}}
 ];
 
 
