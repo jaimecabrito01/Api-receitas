@@ -59,5 +59,19 @@ public class ReceitaService {
 
         return receitaRepository.save(novaReceita);
     }
+    public ReceitaDTO receitaEspec(Long id){
+ Receita receita = receitaRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
+
+    // Transforma em DTO
+    ReceitaDTO dto = new ReceitaDTO(
+        receita.getTitulo(),
+        receita.getDescricao(),
+        receita.getIngredientes(),
+        receita.getPassos(),
+        receita.getCreatedAt()
+    );
+        return dto;
+    }
 
 }
