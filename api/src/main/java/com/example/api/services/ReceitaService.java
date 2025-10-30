@@ -41,8 +41,11 @@ public class ReceitaService {
         return receitaRepository.findAllReceitas();
     }
 
-    public void delete(Long id) {
+    public void delete(Long id,JwtAuthenticationToken jwtAuthenticationToken) {
         receitaRepository.deleteById(id);
+    }
+    public List<Receita> receitasUsuario(JwtAuthenticationToken jwt){
+        return receitaRepository.findAllByUserId(UUID.fromString(jwt.getName()));
     }
 
     public Receita update(ReceitaDTO receita, Long id) {

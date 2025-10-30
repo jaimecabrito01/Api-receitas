@@ -43,7 +43,7 @@ public class TokenController {
             throw new BadCredentialsException("usuario ou senha incorretos");
 
         }
-        var expiresIn =  300l;
+        var expiresIn =  86400L;
         var now = Instant.now();
         
         var scope = user.get().getRoles()

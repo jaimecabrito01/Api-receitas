@@ -30,10 +30,14 @@ public class ReceitaController {
     @Autowired
     private ReceitaService service;
 
- 
+    
 
    
+    @GetMapping("/me")
+    public ResponseEntity minhasReceitas(JwtAuthenticationToken token){
+        return ResponseEntity.ok(service.receitasUsuario(token));
 
+    }
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity create(@RequestBody ReceitaDTO receita,JwtAuthenticationToken jwt) {
@@ -56,7 +60,7 @@ public class ReceitaController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity delete(@PathVariable Long id,JwtAuthenticationToken jwt) {
-        service.delete(id);
+        service.delete(id,jwt);
         return ResponseEntity.noContent().build();
     }
     

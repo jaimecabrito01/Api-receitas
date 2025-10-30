@@ -65,7 +65,6 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody UserCreateDTO dto,JwtAuthenticationToken jwyAuthenticationToken) {
         service.update(dto,jwyAuthenticationToken);
-        System.out.println(dto.getEmail()+ dto.getPassword()+dto.getEmail());
         return ResponseEntity.noContent().build();
     }
 
