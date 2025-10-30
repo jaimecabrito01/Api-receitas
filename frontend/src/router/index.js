@@ -5,6 +5,7 @@ import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
 import EditarPerfil from "../pages/EditarPerfil.vue";
 import Receitas from "../pages/Receitas.vue";
+import EditarReceita from "../pages/EditarReceita.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -12,6 +13,7 @@ const routes = [
   { path: "/register", name:"Registrar", component:Register},
   { path: "/login", name: "login", component:Login },
   {path: "/editar-perfil",name:"editar-perfil",component: EditarPerfil,meta: {requiresAuth:true}},
+  {path:"/editar-receita/:id",name:"editar-receita",component:EditarReceita,meta:{requiresAuth:true}},
   {path: "/minhas-receitas",name:"minhas-receitas",component: Receitas, meta:{requiresAuth:true}}
 ];
 

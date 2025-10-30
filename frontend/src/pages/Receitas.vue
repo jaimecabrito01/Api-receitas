@@ -85,7 +85,7 @@ async function deletarReceita(id) {
   if (!confirm("Tem certeza que deseja excluir esta receita?")) return;
   try {
     const token = localStorage.getItem("token");
-    await api.delete(`/receitas/delete/${id}`, {
+    await api.delete(`/receitas/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     receitas.value = receitas.value.filter((r) => r.id !== id);
