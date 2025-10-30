@@ -36,10 +36,10 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-        .cors(Customizer.withDefaults())
-        .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/authenticate")
-                .permitAll().requestMatchers("/receitas/all").permitAll()
-                .requestMatchers("/user/create").permitAll().anyRequest().authenticated())
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/authenticate")
+                        .permitAll().requestMatchers("/receitas/all").permitAll()
+                        .requestMatchers("/user/create").permitAll().anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

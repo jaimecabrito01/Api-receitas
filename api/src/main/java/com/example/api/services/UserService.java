@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import com.example.api.dto.UserCreateDTO;
@@ -47,12 +48,12 @@ public class UserService {
 
     }
 
-    public void delete(UUID dto) {
+    public void delete(JwtAuthenticationToken jwt) {
 
-        userRepository.deleteById(dto);
+        userRepository.deleteById(UUID.fromString(jwt.getName()));
     }
-    public void update(UserCreateDTO dto,UUID id){
-       User newUser =  userRepository.findById(id).orElseThrow(()-> 
+    public void update(UserCreateDTO dto,JwtAuthenticationToken jwt){
+       User newUser =  userRepository.findById(UUID.fromString(jwt.getName())).orElseThrow(()-> 
        new RuntimeException("usuario nao encontrado"));
        
        newUser.setEmail(dto.getEmail());

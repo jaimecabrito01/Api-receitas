@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.api.dto.UserCreateDTO;
+import com.example.api.dto.UserResponseDTO;
 import com.example.api.entity.Role;
 import com.example.api.repository.RoleRepository;
 import com.example.api.repository.UserRepository;
@@ -50,9 +51,10 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity me(@RequestBody JwtAuthenticationToken jwt){
+    public ResponseEntity me( JwtAuthenticationToken jwt){
         var user = userRepository.findById(UUID.fromString(jwt.getName())).orElseThrow(()-> new RuntimeException("user not found"));
-        return ResponseEntity.ok(user);
+        System.out.println(user.getNome());
+        return ResponseEntity.ok(new UserResponseDTO(user.getNome(), user.getEmail()));
     }
 
     @GetMapping("/all")
