@@ -40,6 +40,10 @@
           <img src="../assets/account.png" alt="Editar Perfil" class="icon-sm" />
           Editar Perfil
         </router-link>
+        <router-link to="/criar-receita" class="dropdown-item">
+          <img src="../assets/account.png" alt="Criar receita" class="icon-sm" />
+          Postar receita
+        </router-link>
 
         <button @click.stop="logout" class="dropdown-item logout">
           <img src="../assets/logout.png" alt="Logout" class="icon-sm" />

@@ -41,8 +41,11 @@ public class ReceitaService {
         return receitaRepository.findAllReceitas();
     }
 
-    public void delete(Long id) {
+    public void delete(Long id,JwtAuthenticationToken jwtAuthenticationToken) {
         receitaRepository.deleteById(id);
+    }
+    public List<Receita> receitasUsuario(JwtAuthenticationToken jwt){
+        return receitaRepository.findAllByUserId(UUID.fromString(jwt.getName()));
     }
 
     public Receita update(ReceitaDTO receita, Long id) {
@@ -55,6 +58,20 @@ public class ReceitaService {
         novaReceita.setTitulo(receita.getTitulo());
 
         return receitaRepository.save(novaReceita);
+    }
+    public ReceitaDTO receitaEspec(Long id){
+ Receita receita = receitaRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
+
+    // Transforma em DTO
+    ReceitaDTO dto = new ReceitaDTO(
+        receita.getTitulo(),
+        receita.getDescricao(),
+        receita.getIngredientes(),
+        receita.getPassos(),
+        receita.getCreatedAt()
+    );
+        return dto;
     }
 
 }

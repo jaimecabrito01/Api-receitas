@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.ReceitaDTO;
 import com.example.api.entity.Receita;
+import com.example.api.repository.ReceitaRepository;
 import com.example.api.repository.UserRepository;
 import com.example.api.services.ReceitaService;
 
@@ -29,16 +30,20 @@ public class ReceitaController {
 
     @Autowired
     private ReceitaService service;
+    @Autowired
+    private ReceitaRepository receitaRepository;
 
- 
+    @GetMapping("/me")
+    public ResponseEntity minhasReceitas(JwtAuthenticationToken token) {
+        return ResponseEntity.ok(service.receitasUsuario(token));
 
-   
+    }
 
     @PostMapping("/add")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity create(@RequestBody ReceitaDTO receita,JwtAuthenticationToken jwt) {
+    public ResponseEntity create(@RequestBody ReceitaDTO receita, JwtAuthenticationToken jwt) {
 
-        return ResponseEntity.ok(service.create(receita,jwt));
+        return ResponseEntity.ok(service.create(receita, jwt));
     }
 
     @GetMapping("/all")
@@ -46,20 +51,25 @@ public class ReceitaController {
         return ResponseEntity.ok(service.list());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity receita(@PathVariable Long id) {
+            return ResponseEntity.ok(service.receitaEspec(id));
+
+    }
+
     @PutMapping("/update/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity update(@RequestParam Long id, @RequestBody ReceitaDTO receita){
+    public ResponseEntity update(@PathVariable Long id, @RequestBody ReceitaDTO receita) {
 
-        return ResponseEntity.ok(service.update(receita,id)) ;
+        return ResponseEntity.ok(service.update(receita, id));
 
     }
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity delete(@PathVariable Long id,JwtAuthenticationToken jwt) {
-        service.delete(id);
+    public ResponseEntity delete(@PathVariable Long id, JwtAuthenticationToken jwt) {
+        service.delete(id, jwt);
         return ResponseEntity.noContent().build();
     }
-    
-   
 
 }
