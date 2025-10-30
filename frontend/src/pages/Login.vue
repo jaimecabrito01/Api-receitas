@@ -60,7 +60,7 @@ async function login() {
     alert('Login realizado com sucesso!')
 
    
-    window.location.href = '/receitas'
+    window.location.href = '/'
   } catch (err) {
     error.value = 'E-mail ou senha incorretos.'
   } finally {

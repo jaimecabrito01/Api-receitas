@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.api.dto.UserCreateDTO;
+import com.example.api.dto.UserResponseDTO;
 import com.example.api.entity.Role;
 import com.example.api.repository.RoleRepository;
 import com.example.api.repository.UserRepository;
@@ -46,20 +49,29 @@ public class UserController {
         return ResponseEntity.ok(service.create(userCreateDTO));
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity me( JwtAuthenticationToken jwt){
+        var user = userRepository.findById(UUID.fromString(jwt.getName())).orElseThrow(()-> new RuntimeException("user not found"));
+        System.out.println(user.getNome());
+        return ResponseEntity.ok(new UserResponseDTO(user.getNome(), user.getEmail()));
+    }
+
     @GetMapping("/all")
     public ResponseEntity list() {
         return ResponseEntity.ok(service.list());
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity update(@PathVariable UUID id, @RequestBody UserCreateDTO dto) {
-        service.update(dto, id);
+    @PutMapping("/update")
+    public ResponseEntity update(@RequestBody UserCreateDTO dto,JwtAuthenticationToken jwyAuthenticationToken) {
+        service.update(dto,jwyAuthenticationToken);
+        System.out.println(dto.getEmail()+ dto.getPassword()+dto.getEmail());
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable UUID id) {
-        service.delete(id);
+    public ResponseEntity delete(@RequestBody JwtAuthenticationToken jwt) {
+        service.delete(jwt);
         return ResponseEntity.noContent().build();
     }
 
