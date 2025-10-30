@@ -9,7 +9,7 @@
         <label for="nome">Nome</label>
         <input
           id="nome"
-          v-model="user.nome"
+          v-model="user.name"
           type="text"
           class="form-control"
           placeholder="Seu nome completo"
@@ -33,7 +33,7 @@
         <label for="senha">Nova Senha</label>
         <input
           id="senha"
-          v-model="user.senha"
+          v-model="user.password"
           type="password"
           class="form-control"
           placeholder="Digite uma nova senha"
@@ -54,7 +54,7 @@ import api from "../services/api";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const user = ref({ nome: "", email: "", senha: "" });
+const user = ref({ name: "", email: "", password: "" });
 const loading = ref(true);
 
 onMounted(async () => {
@@ -64,11 +64,12 @@ onMounted(async () => {
     return;
   }
 
+
   try {
     const response = await api.get("/user/me", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    user.value.nome = response.data.nome;
+    user.value.name = response.data.nome;
     user.value.email = response.data.email;
   } catch (error) {
     console.error("Erro ao buscar dados do usuário:", error);
@@ -80,28 +81,29 @@ onMounted(async () => {
   }
 });
 
-async function atualizarPerfil() {
+
+ async function atualizarPerfil() {
+  loading.value = true;
   const token = localStorage.getItem("token");
-  if (!token) return alert("Sessão expirada. Faça login novamente.");
+
+
+  const payload = {};
+  if (nome.value.trim() !== "") payload.name = nome.value.trim();
+  if (email.value.trim() !== "") payload.email = email.value.trim();
+  if (senha.value.trim() !== "") payload.password = senha.value.trim();
 
   try {
-    await api.put(
-      "/user/update",
-      {
-        nome: user.value.nome,
-        email: user.value.email,
-        senha: user.value.senha || undefined,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
+    await api.put("/user/update", payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     alert("Perfil atualizado com sucesso!");
-    router.push("/");
+
+  
   } catch (error) {
-    console.error(error);
-    alert("Erro ao atualizar o perfil.");
+    console.error("Erro ao atualizar perfil:", error);
+    alert("Erro ao atualizar perfil.");
+  } finally {
+    loading.value = false;
   }
 }
 </script>

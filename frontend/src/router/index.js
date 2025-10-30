@@ -3,12 +3,14 @@ import Home from "../pages/Home.vue";
 import CriarReceita from "../pages/CriarReceita.vue";
 import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
+import EditarPerfil from "../pages/EditarPerfil.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/create", name: "CriarReceita", component: CriarReceita, meta: {requiresAuth:true} },
   { path: "/register", name:"Registrar", component:Register},
   { path: "/login", name: "login", component:Login },
+  {path: "/editar-perfil",name:"editar-perfil",component: EditarPerfil,meta: {requiresAuth:true}}
 ];
 
 
