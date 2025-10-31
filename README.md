@@ -28,18 +28,8 @@ O projeto é dividido em **backend (Spring Boot + PostgreSQL)** e **frontend (Vu
 
 ---
 
-## 🧩 Estrutura do Projeto
-├── backend/
-│ ├── src/
-│ ├── pom.xml
-│ └── Dockerfile
-│
-├── frontend/
-│ ├── src/
-│ ├── package.json
-│ └── Dockerfile
-│
-└── docker-compose.yml
+
+
 
 ## ⚙️ Pré-requisitos
 
