@@ -5,7 +5,7 @@
       🍳 ReceitasApp
     </router-link>
 
-    <!-- Links quando NÃO logado -->
+    
     <div v-if="!isLoggedIn" class="navbar-links">
       <router-link to="/login" class="nav-item">
         <img src="../assets/login.png" alt="Login" class="icon" />
