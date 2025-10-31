@@ -10,7 +10,7 @@
             <button type="button" class="btn-close" @click="statusMessage = null" aria-label="Close"></button>
         </div>
 
-        <!-- Loading Spinner -->
+        
         <div v-if="loading" class="text-center text-muted py-5 mx-auto" style="max-width: 700px;">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Carregando...</span>
