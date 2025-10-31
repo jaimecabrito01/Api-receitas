@@ -18,7 +18,7 @@
       </router-link>
     </div>
 
-    <!-- Menu quando LOGADO -->
+    
     <div v-else class="navbar-user" @click="toggleMenu">
       <button class="user-btn">
         <img src="../assets/account.png" alt="Usuário" class="icon-lg" />
