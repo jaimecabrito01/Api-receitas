@@ -2,7 +2,7 @@
     <div class="container py-5">
         <h1 class="mb-5 text-center text-dark">✏️ Editar Receita</h1>
 
-        <!-- Mensagem de Status (Feedback ao usuário) -->
+        
         <div v-if="statusMessage"
              :class="{'alert-success': !isError, 'alert-danger': isError}"
              class="alert alert-dismissible fade show mx-auto" style="max-width: 700px;" role="alert">
@@ -18,10 +18,10 @@
             <p class="mt-2">Carregando dados da receita...</p>
         </div>
         
-        <!-- Formulário Principal -->
+    
         <form v-else @submit.prevent="atualizarReceita" class="card shadow-lg p-4 mx-auto" style="max-width: 700px;">
             
-            <!-- Título -->
+            
             <div class="mb-3">
                 <label class="form-label fw-bold">Título:</label>
                 <input
@@ -33,7 +33,7 @@
                 />
             </div>
 
-            <!-- Descrição -->
+            
             <div class="mb-3">
                 <label class="form-label fw-bold">Descrição:</label>
                 <textarea
@@ -45,7 +45,7 @@
                 ></textarea>
             </div>
 
-            <!-- Ingredientes -->
+            
             <div class="mb-4">
                 <label class="form-label fw-bold">Ingredientes:</label>
                 <div v-for="(ingrediente, index) in receita.ingredientes" :key="index" class="input-group mb-2">
@@ -73,7 +73,7 @@
                 </button>
             </div>
 
-            <!-- Passos -->
+            
             <div class="mb-4">
                 <label class="form-label fw-bold">Passos:</label>
                 <div v-for="(passo, index) in receita.passos" :key="index" class="input-group mb-2">
@@ -101,7 +101,7 @@
                 </button>
             </div>
 
-            <!-- Ações -->
+            
             <div class="d-flex justify-content-between mt-4">
                 <button type="submit" class="btn btn-success" :disabled="isSaving">
                     <span v-if="!isSaving">💾 Salvar Alterações</span>
