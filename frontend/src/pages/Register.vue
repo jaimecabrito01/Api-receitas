@@ -88,7 +88,7 @@ async function registerUser() {
     name.value = "";
     email.value = "";
     password.value = "";
-    router.push("/")
+    router.push("/login")
   } catch (error) {
     console.error(error);
     errorMessage.value = "Erro ao cadastrar usuário.";
