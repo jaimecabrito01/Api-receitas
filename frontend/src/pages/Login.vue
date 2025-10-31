@@ -39,11 +39,13 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import { useRouter } from "vue-router";
 
 const email = ref('')
 const password = ref('')
 const error = ref('')
 const loading = ref(false)
+const router = useRouter();
 
 async function login() {
   error.value = ''

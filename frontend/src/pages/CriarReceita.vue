@@ -89,11 +89,13 @@
 <script setup>
 import { ref } from "vue";
 import api from "../services/api";
+import { useRouter } from "vue-router";
 const titulo = ref("");
 const descricao = ref("");
 const ingredientes = ref([""]);
 const passos = ref([""]);
-const userId = ref([""])
+const router = useRouter();
+
 
 function adicionarIngrediente() {
   ingredientes.value.push("");
@@ -135,6 +137,7 @@ async function criarReceita() {
     descricao.value = "";
     ingredientes.value = [""];
     passos.value = [""];
+    router.push("/")
   } catch (error) {
     console.error("Erro ao criar receita:", error);
     alert("Erro ao criar receita!");

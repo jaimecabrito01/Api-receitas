@@ -9,6 +9,7 @@ import com.example.api.entity.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role,Long>{
+   boolean existsByNome(String nome);
   Role findByNome(String nome);
 
     

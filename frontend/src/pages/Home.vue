@@ -9,7 +9,7 @@
         v-for="receita in receitas"
         :key="receita.id"
         class="card receita-card"
-        @click="goToRecipe(receita.id)"
+        
       >
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ receita.titulo }}</h5>
@@ -61,9 +61,7 @@ onMounted(async () => {
   }
 });
 
-function goToRecipe(id) {
-  router.push(`/receita/${id}`);
-}
+
 </script>
 
 <style scoped>

@@ -119,28 +119,24 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
-    // Importe seu serviço de API real
     import api from '../services/api'; 
     
-    // Inicialização do Router e Rota (resolve o ReferenceError)
     const route = useRoute();
     const router = useRouter();
     
-    // Variáveis de Estado
     const loading = ref(true);
     const isSaving = ref(false);
     const statusMessage = ref(null);
     const isError = ref(false);
     
-    // Objeto reativo para o formulário com valores padrão
     const receita = ref({
         titulo: "",
         descricao: "",
-        ingredientes: [], // Sempre inicializar como array vazio
-        passos: []       // Sempre inicializar como array vazio
+        ingredientes: [], 
+        passos: []       
     });
 
-    // Hooks do Ciclo de Vida
+
     onMounted(async () => {
         const id = route.params.id; 
         const token = localStorage.getItem("token");
@@ -148,25 +144,19 @@
         try {
             statusMessage.value = null;
             
-            // Endpoint 1: Buscar dados da receita
             const response = await api.get(`/receitas/${id}`, {
                  headers: { Authorization: `Bearer ${token}` }
             });
             
-            // --- CORREÇÃO DE DADOS INCONSISTENTES DO BACKEND ---
             let fetchedData = response.data;
             
-            // 1. Desembrulhar o Optional do Spring (se aplicável)
             if (fetchedData && typeof fetchedData.present === 'boolean' && fetchedData.value) {
                 fetchedData = fetchedData.value;
             }
             
-            // 2. Garantir que as listas não sejam null/undefined e sejam arrays
             if (fetchedData) {
-                // Preenche o formulário
                 receita.value = fetchedData; 
                 
-                // Saneamento: Garante que os campos de lista são arrays
                 if (!receita.value.ingredientes) {
                     receita.value.ingredientes = [];
                 }
@@ -177,7 +167,6 @@
                  statusMessage.value = "❌ Resposta da API vazia ou inválida.";
                  isError.value = true;
             }
-            // --- FIM DA CORREÇÃO ---
             
         } catch (error) {
             console.error("Erro ao buscar receita:", error);
@@ -188,7 +177,6 @@
         }
     });
 
-    // --- Métodos ---
     const atualizarReceita = async () => {
         isSaving.value = true;
         statusMessage.value = null; 
@@ -197,16 +185,13 @@
         const id = route.params.id;
         const token = localStorage.getItem("token");
         
-        // 1. Limpa dados e prepara payload
         const receitaParaSalvar = {
             ...receita.value,
             id: id, 
-            // Filtra e remove strings vazias antes de enviar
             ingredientes: receita.value.ingredientes.map(i => i.trim()).filter(i => i.length > 0),
             passos: receita.value.passos.map(p => p.trim()).filter(p => p.length > 0),
         };
 
-        // 2. Validação
         if (!receitaParaSalvar.titulo || receitaParaSalvar.ingredientes.length === 0 || receitaParaSalvar.passos.length === 0) {
              statusMessage.value = "⚠️ Preencha o título e adicione pelo menos um ingrediente e um passo.";
              isError.value = true;
@@ -215,7 +200,6 @@
         }
         
         try {
-            // Endpoint 2: Enviar atualização
            await api.put(`/receitas/update/${id}`, receitaParaSalvar, {
     headers: { Authorization: `Bearer ${token}` }
 });
@@ -235,7 +219,6 @@
         }
     };
 
-    // Funções de manipulação de lista
     const adicionarIngrediente = () => receita.value.ingredientes.push("");
     const removerIngrediente = (index) => receita.value.ingredientes.splice(index, 1);
     
@@ -247,7 +230,6 @@
 </script>
 
 <style scoped>
-    /* Estilos específicos para este componente */
     .form-control:focus {
         border-color: #0d6efd;
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);

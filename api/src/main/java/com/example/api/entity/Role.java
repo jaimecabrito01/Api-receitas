@@ -21,6 +21,13 @@ public class Role {
     private Long Id;
 
     private String nome;
+    
+      public Role() {}
+
+    public Role(String nome) {
+        this.nome = nome;
+    }
+
      public enum Values{
         basic(2l),
         ADMIN(1l);

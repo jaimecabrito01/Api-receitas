@@ -62,12 +62,15 @@
 <script setup>
 import { ref } from "vue";
 import api from "../services/api"; 
+import { useRouter } from "vue-router";
+
 
 const name = ref("");
 const email = ref("");
 const password = ref("");
 const successMessage = ref("");
 const errorMessage = ref("");
+const router = useRouter();
 
 async function registerUser() {
   successMessage.value = "";
@@ -85,7 +88,7 @@ async function registerUser() {
     name.value = "";
     email.value = "";
     password.value = "";
-    window.location.href = "/receitas"
+    router.push("/")
   } catch (error) {
     console.error(error);
     errorMessage.value = "Erro ao cadastrar usuário.";
