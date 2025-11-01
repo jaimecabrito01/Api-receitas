@@ -1,55 +1,39 @@
 # 🍽️ Aplicação de Receitas
 
-Uma aplicação completa para criação, edição, visualização e exclusão de receitas culinárias.  
-O projeto é dividido em **backend (Spring Boot + PostgreSQL)** e **frontend (Vue 3 + Vite + Bun)**.
+Uma aplicação completa para criação, edição, visualização e exclusão de receitas culinárias.
+
+O projeto é um *monorepo* dividido em **backend (Spring Boot + PostgreSQL)** e **frontend (Vue 3 + Vite + Bun)**, ambos configurados para rodar facilmente com Docker.
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
 ### 🧠 Backend (API)
-- **Java 21**
-- **Spring Boot 3**
-  - Spring Web
-  - Spring Security (JWT)
-  - Spring Data JPA
-- **PostgreSQL** como banco de dados
-- **Maven** para build e dependências
-- **Docker** para conteinerização
-- **OpenJDK 21** como base da imagem Docker
+
+* **Java 21**
+* **Spring Boot 3**
+    * Spring Web
+    * Spring Security (com JWT para autenticação)
+    * Spring Data JPA
+* **PostgreSQL** como banco de dados
+* **Maven** para build e gerenciamento de dependências
+* **Docker** para conteinerização (baseado em `openjdk:21-slim`)
 
 ### 💻 Frontend
-- **Vue.js 3** com **Composition API**
-- **Vite** como bundler e servidor de desenvolvimento
-- **Bun** como gerenciador de pacotes e executor
-- **Bootstrap 5** para estilização
-- Comunicação com a API via **Axios**
-- **Vue Router** para navegação entre telas
+
+* **Vue.js 3** (utilizando Composition API)
+* **Vite** como bundler e servidor de desenvolvimento
+* **Bun** como gerenciador de pacotes e executor
+* **Bootstrap 5** para estilização e responsividade
+* **Vue Router** para gerenciamento de rotas
+* **Axios** para comunicação com a API REST
 
 ---
 
+## 📂 Estrutura do Projeto
 
+O repositório está organizado em duas pastas principais: `api` e `frontend`.
 
+### `api/` (Backend Spring Boot)
 
-## ⚙️ Pré-requisitos
-
-Antes de começar, você precisa ter instalado:
-
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-
-## 🧱 Como Rodar Localmente com Docker
-
-### 1️⃣ Clone o repositório
-```bash
-git clone https://github.com/jaimecabrito01/Api-receitas.git
-cd Api-receitas
-
-docker compose up --build
-
-```
-
-### Pronto !!
- A aplicação ja estara rodando em localhost:5173 !!
-
-
+A estrutura segue o padrão do Spring Boot, organizada por responsabilidades:
