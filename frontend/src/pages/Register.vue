@@ -1,58 +1,60 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h2 class="text-center mb-4">Cadastrar Usuário</h2>
+ <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px;">
+      <div class="card-body">
+        <h2 class="text-center mb-4">Cadastrar Usuário</h2>
 
-            <form @submit.prevent="registerUser">
-              <div class="mb-3">
-                <label class="form-label">Nome:</label>
-                <input
-                  v-model="name"
-                  type="text"
-                  class="form-control"
-                  placeholder="Digite seu nome"
-                  required
-                />
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Email:</label>
-                <input
-                  v-model="email"
-                  type="email"
-                  class="form-control"
-                  placeholder="exemplo@email.com"
-                  required
-                />
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Senha:</label>
-                <input
-                  v-model="password"
-                  type="password"
-                  class="form-control"
-                  placeholder="Digite sua senha"
-                  required
-                />
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100">
-                Cadastrar
-              </button>
-            </form>
-
-            <div v-if="successMessage" class="alert alert-success mt-3 text-center">
-              {{ successMessage }}
-            </div>
-
-            <div v-if="errorMessage" class="alert alert-danger mt-3 text-center">
-              {{ errorMessage }}
-            </div>
+        <form @submit.prevent="registerUser" class="d-flex flex-column gap-3">
+          <div>
+            <label class="form-label">Nome:</label>
+            <input
+              v-model="name"
+              type="text"
+              class="form-control"
+              placeholder="Digite seu nome"
+              required
+            />
           </div>
+
+          <div>
+            <label class="form-label">Email:</label>
+            <input
+              v-model="email"
+              type="email"
+              class="form-control"
+              placeholder="exemplo@email.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="form-label">Senha:</label>
+            <input
+              v-model="password"
+              type="password"
+              class="form-control"
+              placeholder="Digite sua senha"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">
+            Cadastrar
+          </button>
+        </form>
+
+        <div
+          v-if="successMessage"
+          class="alert alert-success mt-4 text-center"
+        >
+          {{ successMessage }}
+        </div>
+
+        <div
+          v-if="errorMessage"
+          class="alert alert-danger mt-4 text-center"
+        >
+          {{ errorMessage }}
         </div>
       </div>
     </div>
