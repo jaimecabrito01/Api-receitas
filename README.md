@@ -59,30 +59,7 @@ api
     │       └── app.pub                 # Chave pública (para JWT)
     ...`
    ```
-### Frontend 
-- A estrutura utiliza o padrão do Vite + Vue 3:
-  Entendido. Você não quer que eu apenas leia o README existente, mas que o aprimore, incorporando a estrutura de pastas que você detalhou
 
-api
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── example
-    │   │           └── api
-    │   │               ├── config/       # Configs de Spring Security, JWT
-    │   │               ├── controllers/  # Endpoints REST (rotas da API)
-    │   │               ├── cors/         # Configuração de Cross-Origin
-    │   │               ├── dto/          # Data Transfer Objects (para JSON)
-    │   │               ├── entity/       # Entidades JPA (modelos do banco)
-    │   │               ├── repository/   # Repositórios Spring Data JPA
-    │   │               ├── services/     # Lógica de negócio
-    │   │               └── ApiApplication.java # Ponto de entrada
-    │   └── resources
-    │       ├── application.properties  # Configs da aplicação (banco, etc.)
-    │       ├── app.key                 # Chave privada (para JWT)
-    │       └── app.pub                 # Chave pública (para JWT)
-    ...
 frontend/ (Frontend Vue.js)
 A estrutura utiliza o padrão do Vite + Vue 3:
 ```
