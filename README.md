@@ -92,7 +92,7 @@ O `docker-compose.yaml` na raiz do projeto foi configurado para construir e orqu
 ### 1️⃣ Clone o repositório
 
 ```bash
-git clone [https://github.com/jaimecabrito01/Api-receitas.git](https://github.com/jaimecabrito01/Api-receitas.git)
+git clone https://github.com/jaimecabrito01/Api-receitas.git
 cd Api-receitas
 ```
 ### Suba os containers
