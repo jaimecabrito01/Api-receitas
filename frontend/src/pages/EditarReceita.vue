@@ -1,6 +1,6 @@
 <template>
     <div class="container py-5">
-        <h1 class="mb-5 text-center text-dark">✏️ Editar Receita</h1>
+        <h1 class="mb-5 text-center text-dark"> <img src="../assets/edit.png" alt="">Editar Receita</h1>
 
         
         <div v-if="statusMessage"
@@ -104,11 +104,11 @@
             
             <div class="d-flex justify-content-between mt-4">
                 <button type="submit" class="btn btn-success" :disabled="isSaving">
-                    <span v-if="!isSaving">💾 Salvar Alterações</span>
+                    <span v-if="!isSaving"> <img src="../assets/save.png" alt="">Salvar Alterações</span>
                     <span v-else>Salvando...</span>
                 </button>
                 <button type="button" class="btn btn-secondary" @click="voltar">
-                    ↩️ Cancelar
+                    <img src="../assets/cancel.png" alt="">Cancelar
                 </button>
             </div>
             

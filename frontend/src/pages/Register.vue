@@ -2,7 +2,9 @@
   <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
     <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px;">
       <div class="card-body">
-        <h2 class="text-center mb-4 fw-bold text-primary">Cadastrar Usuário</h2>
+        <h2 class="text-center mb-4 fw-bold text-primary"> 
+          <img src="../assets/account-circle.png" alt="">
+          Cadastrar Usuário</h2>
 
         <form @submit.prevent="registerUser" class="d-flex flex-column gap-3">
           <div>
@@ -43,7 +45,6 @@
           </button>
         </form>
 
-        <!-- Alertas Bootstrap -->
         <transition name="fade">
           <div
             v-if="successMessage"
@@ -111,7 +112,7 @@ async function registerUser() {
     email.value = "";
     password.value = "";
 
-    setTimeout(() => router.push("/login"), 1500); // redireciona após 1.5s
+    setTimeout(() => router.push("/login"), 1500); 
   } catch (error) {
     console.error(error);
     errorMessage.value = "Erro ao cadastrar usuário.";

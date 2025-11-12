@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4 text-center">🍽️ Receitas</h1>
+    
 
     <div v-if="loading" class="text-center text-muted">Carregando receitas...</div>
 
@@ -17,14 +17,14 @@
           <p class="card-text text-secondary small">Criado por: {{ receita.usuarioNome }}</p>
           <hr />
 
-          <h6 class="fw-semibold">🧂 Ingredientes:</h6>
+          <h6 class="fw-semibold"> <img src="../assets/receita.png" alt="">Ingredientes:</h6>
           <ul class="list-unstyled ms-2">
             <li v-for="(ingrediente, i) in receita.ingredientes" :key="i">
               - {{ ingrediente }}
             </li>
           </ul>
 
-          <h6 class="fw-semibold mt-3">👨‍🍳 Modo de Preparo:</h6>
+          <h6 class="fw-semibold mt-3"><img src="../assets/chef.png" alt=""> Modo de Preparo:</h6>
           <ol class="ms-3">
             <li v-for="(passo, i) in receita.passos" :key="i">
               {{ passo }}
@@ -88,4 +88,5 @@ ul, ol {
 li {
   white-space: normal;
 }
+
 </style>
