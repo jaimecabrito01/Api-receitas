@@ -1,8 +1,8 @@
 <template>
- <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
     <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px;">
       <div class="card-body">
-        <h2 class="text-center mb-4">Cadastrar Usuário</h2>
+        <h2 class="text-center mb-4 fw-bold text-primary">Cadastrar Usuário</h2>
 
         <form @submit.prevent="registerUser" class="d-flex flex-column gap-3">
           <div>
@@ -43,19 +43,40 @@
           </button>
         </form>
 
-        <div
-          v-if="successMessage"
-          class="alert alert-success mt-4 text-center"
-        >
-          {{ successMessage }}
-        </div>
+        <!-- Alertas Bootstrap -->
+        <transition name="fade">
+          <div
+            v-if="successMessage"
+            class="alert alert-success alert-dismissible fade show mt-4 text-center"
+            role="alert"
+          >
+            <i class="bi bi-check-circle-fill me-2"></i> {{ successMessage }}
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Fechar"
+              @click="successMessage = ''"
+            ></button>
+          </div>
+        </transition>
 
-        <div
-          v-if="errorMessage"
-          class="alert alert-danger mt-4 text-center"
-        >
-          {{ errorMessage }}
-        </div>
+        <transition name="fade">
+          <div
+            v-if="errorMessage"
+            class="alert alert-danger alert-dismissible fade show mt-4 text-center"
+            role="alert"
+          >
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage }}
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Fechar"
+              @click="errorMessage = ''"
+            ></button>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -63,9 +84,8 @@
 
 <script setup>
 import { ref } from "vue";
-import api from "../services/api"; 
+import api from "../services/api";
 import { useRouter } from "vue-router";
-
 
 const name = ref("");
 const email = ref("");
@@ -85,15 +105,25 @@ async function registerUser() {
       password: password.value,
     };
 
-    await api.post("/user/create", payload); 
+    await api.post("/user/create", payload);
     successMessage.value = "Usuário cadastrado com sucesso!";
     name.value = "";
     email.value = "";
     password.value = "";
-    router.push("/login")
+
+    setTimeout(() => router.push("/login"), 1500); // redireciona após 1.5s
   } catch (error) {
     console.error(error);
     errorMessage.value = "Erro ao cadastrar usuário.";
   }
 }
 </script>
+
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>
