@@ -1,9 +1,8 @@
 <template>
-  <div class="container mt-4">
+  <div class="container mt-4 position-relative">
     <h1 class="mb-4 text-center">Criar Receita</h1>
 
     <form @submit.prevent="criarReceita" class="card shadow-sm p-4">
-     
       <div class="mb-3">
         <label class="form-label fw-bold">Título:</label>
         <input
@@ -14,7 +13,6 @@
         />
       </div>
 
-    
       <div class="mb-3">
         <label class="form-label fw-bold">Descrição:</label>
         <textarea
@@ -26,7 +24,6 @@
         ></textarea>
       </div>
 
-      
       <div class="mb-3">
         <label class="form-label fw-bold">Ingredientes:</label>
 
@@ -52,7 +49,6 @@
         </button>
       </div>
 
-    
       <div class="mb-3">
         <label class="form-label fw-bold">Passos:</label>
 
@@ -78,11 +74,33 @@
         </button>
       </div>
 
-     
       <button type="submit" class="btn btn-success w-100 mt-3">
         Criar Receita
       </button>
     </form>
+
+    <!-- 🔔 Toast de sucesso -->
+    <div
+      class="toast-container position-fixed bottom-0 end-0 p-3"
+      style="z-index: 1050"
+    >
+      <div
+        v-if="toastMessage"
+        :class="['toast align-items-center text-white border-0 show', toastClass]"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body">{{ toastMessage }}</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            @click="toastMessage = ''"
+          ></button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,30 +108,33 @@
 import { ref } from "vue";
 import api from "../services/api";
 import { useRouter } from "vue-router";
+
 const titulo = ref("");
 const descricao = ref("");
 const ingredientes = ref([""]);
 const passos = ref([""]);
+const toastMessage = ref("");
+const toastClass = ref("bg-success");
 const router = useRouter();
 
+function showToast(message, type = "success") {
+  toastMessage.value = message;
+  toastClass.value = type === "success" ? "bg-success" : "bg-danger";
+  setTimeout(() => (toastMessage.value = ""), 4000); // some sozinho após 4s
+}
 
 function adicionarIngrediente() {
   ingredientes.value.push("");
 }
-
 function removerIngrediente(index) {
   ingredientes.value.splice(index, 1);
 }
-
 function adicionarPasso() {
   passos.value.push("");
 }
-
 function removerPasso(index) {
   passos.value.splice(index, 1);
 }
-
-
 
 async function criarReceita() {
   const payload = {
@@ -121,10 +142,8 @@ async function criarReceita() {
     descricao: descricao.value,
     ingredientes: ingredientes.value,
     passos: passos.value,
-    
   };
 
-  
   try {
     await api.post("/receitas/add", payload, {
       headers: {
@@ -132,19 +151,39 @@ async function criarReceita() {
       },
     });
 
-    alert("Receita criada com sucesso!");
+    showToast("Receita criada com sucesso!", "success");
+
     titulo.value = "";
     descricao.value = "";
     ingredientes.value = [""];
     passos.value = [""];
-    router.push("/")
+
+    setTimeout(() => router.push("/"), 1500);
   } catch (error) {
     console.error("Erro ao criar receita:", error);
-    alert("Erro ao criar receita!");
+    showToast("Erro ao criar receita!", "error");
   }
 }
-
-
-
-
 </script>
+
+<style scoped>
+.toast-container {
+  z-index: 2000;
+}
+
+.toast {
+  opacity: 0.95;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

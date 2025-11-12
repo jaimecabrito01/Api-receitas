@@ -1,10 +1,25 @@
 <template>
-  <div class="editar-perfil container">
-    <h2 class="text-center mb-4">👤 Editar Perfil</h2>
+  <div class="editar-perfil container text-center">
+   
 
-    <div v-if="loading" class="text-center text-muted">Carregando informações...</div>
+    <h2 class="mb-4"> <img src="../assets/account-circle.png" alt="">Editar Perfil</h2>
 
-    <form v-else @submit.prevent="atualizarPerfil" class="form-editar">
+    <div v-if="alert.message" class="mb-4">
+      <div
+        :class="[
+          'alert',
+          alert.type === 'success' ? 'alert-success' : 'alert-danger',
+          'text-center'
+        ]"
+        role="alert"
+      >
+        {{ alert.message }}
+      </div>
+    </div>
+
+    <div v-if="loading" class="text-muted">Carregando informações...</div>
+
+    <form v-else @submit.prevent="atualizarPerfil" class="form-editar text-start">
       <div class="form-group mb-3">
         <label for="nome">Nome</label>
         <input
@@ -41,7 +56,9 @@
       </div>
 
       <div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <button type="submit" class="btn btn-primary" :disabled="loading">
+          {{ loading ? 'Salvando...' : 'Salvar Alterações' }}
+        </button>
         <router-link to="/" class="btn btn-secondary">Cancelar</router-link>
       </div>
     </form>
@@ -56,6 +73,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const user = ref({ name: "", email: "", password: "" });
 const loading = ref(true);
+const alert = ref({ message: "", type: "" }); 
 
 onMounted(async () => {
   const token = localStorage.getItem("token");
@@ -63,7 +81,6 @@ onMounted(async () => {
     router.push("/login");
     return;
   }
-
 
   try {
     const response = await api.get("/user/me", {
@@ -73,7 +90,7 @@ onMounted(async () => {
     user.value.email = response.data.email;
   } catch (error) {
     console.error("Erro ao buscar dados do usuário:", error);
-    alert("Erro ao carregar seus dados. Faça login novamente.");
+    alert.value = { message: "Erro ao carregar seus dados. Faça login novamente.", type: "danger" };
     localStorage.removeItem("token");
     router.push("/login");
   } finally {
@@ -81,29 +98,29 @@ onMounted(async () => {
   }
 });
 
-
- async function atualizarPerfil() {
+async function atualizarPerfil() {
   loading.value = true;
   const token = localStorage.getItem("token");
 
-
   const payload = {};
-  if (nome.value.trim() !== "") payload.name = nome.value.trim();
-  if (email.value.trim() !== "") payload.email = email.value.trim();
-  if (senha.value.trim() !== "") payload.password = senha.value.trim();
+  if (user.value.name.trim() !== "") payload.name = user.value.name.trim();
+  if (user.value.email.trim() !== "") payload.email = user.value.email.trim();
+  if (user.value.password.trim() !== "") payload.password = user.value.password.trim();
 
   try {
     await api.put("/user/update", payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    alert("Perfil atualizado com sucesso!");
 
-  
+    alert.value = { message: "✅ Perfil atualizado com sucesso!", type: "success" };
+    user.value.password = ""; 
   } catch (error) {
     console.error("Erro ao atualizar perfil:", error);
-    alert("Erro ao atualizar perfil.");
+    alert.value = { message: "❌ Erro ao atualizar perfil. Tente novamente.", type: "danger" };
   } finally {
     loading.value = false;
+
+    setTimeout(() => (alert.value.message = ""), 4000);
   }
 }
 </script>
@@ -118,8 +135,11 @@ onMounted(async () => {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.text-center {
-  text-align: center;
+.logo {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: 0 auto 1.5rem auto;
 }
 
 label {

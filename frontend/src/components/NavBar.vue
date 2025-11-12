@@ -2,7 +2,7 @@
   <nav class="navbar">
     <!-- Logo -->
     <router-link to="/" class="navbar-logo">
-      🍳 ReceitasApp
+      <img src="../assets/logo.png" alt="">
     </router-link>
 
     
@@ -32,16 +32,16 @@
 
       <div v-if="menuOpen" class="dropdown">
         <router-link to="/minhas-receitas" class="dropdown-item">
-          <img src="../assets/account.png" alt="Minhas Receitas" class="icon-sm" />
+          <img src="../assets/menu.png" alt="Minhas Receitas" class="icon-sm" />
           Minhas Receitas
         </router-link>
 
         <router-link to="/editar-perfil" class="dropdown-item">
-          <img src="../assets/account.png" alt="Editar Perfil" class="icon-sm" />
+          <img src="../assets/edit.png" alt="Editar Perfil" class="icon-sm" />
           Editar Perfil
         </router-link>
         <router-link to="/criar-receita" class="dropdown-item">
-          <img src="../assets/account.png" alt="Criar receita" class="icon-sm" />
+          <img src="../assets/add2.png" alt="Criar receita" class="icon-sm" />
           Postar receita
         </router-link>
 
@@ -222,5 +222,11 @@ window.addEventListener("click", (e) => {
 .logout:hover {
   background-color: #7f1d1d;
   color: white;
+}
+.navbar-logo img {
+  height: 52px; /* altura fixa e proporcional */
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 </style>
