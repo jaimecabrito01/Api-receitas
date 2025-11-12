@@ -1,6 +1,5 @@
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4 text-center"> <img src="../assets/logo.png" alt=""></h1>
 
     <div v-if="loading" class="text-center text-muted">Carregando receitas...</div>
 
