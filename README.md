@@ -2,7 +2,7 @@
 
 Uma aplicação completa para criação, edição, visualização e exclusão de receitas culinárias.
 
-O projeto é um *monorepo* dividido em **backend (Spring Boot + PostgreSQL)** e **frontend (Vue 3 + Vite + Bun)**, ambos configurados para rodar facilmente com Docker.
+O projeto é um *monorepo* dividido em **backend (Spring Boot + PostgreSQL)** e **frontend (Vue 3 + Vite + Bun)**, ambos configurados para rodar facilmente com Docker. Para ver em funcionament acesse receitas.cabritech.com.br
 
 ---
 
