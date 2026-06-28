@@ -38,7 +38,7 @@ public class UserController {
 
 
     @PostMapping("/create")
-    public ResponseEntity create(@RequestBody UserCreateDTO userCreateDTO) {k
+    public ResponseEntity create(@RequestBody UserCreateDTO userCreateDTO) {
 
       
         var user = userRepository.findByEmail(userCreateDTO.getEmail());
@@ -69,7 +69,8 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@RequestBody JwtAuthenticationToken jwt) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity delete(@PathVariable Long id, JwtAuthenticationToken jwt) {
         service.delete(jwt);
         return ResponseEntity.noContent().build();
     }
