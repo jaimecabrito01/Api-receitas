@@ -6,6 +6,13 @@
     </router-link>
 
     
+    <div class="navbar-center">
+      <router-link to="/receitas" class="nav-item">
+        <img src="../assets/receita.png" alt="Receitas" class="icon" />
+        Receitas
+      </router-link>
+    </div>
+
     <div v-if="!isLoggedIn" class="navbar-links">
       <router-link to="/login" class="nav-item">
         <img src="../assets/login.png" alt="Login" class="icon" />
@@ -123,6 +130,12 @@ window.addEventListener("click", (e) => {
   font-weight: bold;
   color: white;
   text-decoration: none;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .navbar-links {
