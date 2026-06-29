@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/Home.vue";
+import TodasReceitas from "../pages/TodasReceitas.vue";
 import CriarReceita from "../pages/CriarReceita.vue";
 import Register from "../pages/Register.vue";
 import Login from "../pages/Login.vue";
@@ -9,6 +10,7 @@ import EditarReceita from "../pages/EditarReceita.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
+  { path: "/receitas", name: "TodasReceitas", component: TodasReceitas },
   { path: "/criar-receita", name: "CriarReceita", component: CriarReceita, meta: {requiresAuth:true} },
   { path: "/register", name:"Registrar", component:Register},
   { path: "/login", name: "login", component:Login },
