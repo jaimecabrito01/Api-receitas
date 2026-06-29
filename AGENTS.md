@@ -4,7 +4,7 @@
 
 - **Backend** (`api/`): Java 21, Spring Boot 3.5.6, Maven, PostgreSQL 16, JWT (RSA)
 - **Frontend** (`frontend/`): Vue 3 (Composition API), Vite 7, Bun, Bootstrap 5, Axios, Vue Router
-- **Infra**: Docker Compose at root
+- **Infra**: Docker Compose at root, Kubernetes at `~/Projetos/devops/receitas-app-infra/k8s/`, ArgoCD
 
 ## Run locally
 
@@ -37,10 +37,11 @@ docker compose up --build
 
 ## Auth
 
-- JWT via RSA key pair: `api/src/main/resources/app.key` (private), `app.pub` (public)
+- JWT via RSA key pair: `api/src/main/resources/app.key` (private, gitignored), `app.pub` (public)
 - Token expires in 86400s (24h), JWT subject = user UUID
 - Send as `Authorization: Bearer <token>` header
 - CORS allows only `http://localhost:5173`
+- In Kubernetes, JWT keys are mounted via SealedSecret `jwt-keys` at `/etc/jwt/`
 
 ## DB
 
@@ -73,6 +74,17 @@ Frontend:
 cd frontend && bun run build
 ```
 
+## Kubernetes secrets
+
+- `postgres-credentials`: created manually or via SealedSecret
+- `jwt-keys`: managed via SealedSecret (`k8s/security/jwt-sealedsecret.yaml`)
+
+To regenerate the sealed JWT keys after rotating them:
+```bash
+bash ~/Projetos/devops/receitas-app-infra/k8s/security/seal-jwt-keys.sh
+```
+Then commit the updated `jwt-sealedsecret.yaml` — ArgoCD syncs automatically.
+
 ## Conventions
 
 - Backend: Portuguese naming (`Receita`, `titulo`, `descricao`, `ingredientes`, `passos`)
@@ -85,8 +97,6 @@ cd frontend && bun run build
 
 ## Notable quirks
 
-- `UserController.java:41` has syntax error (`{k`) — build would fail
 - `ReceitaRepository.findAllReceitas()` returns `List<ReceitaResponseDTO>` — check for JPQL custom query
 - No lint/format/typecheck config committed
-- No CI workflows
 - Only one stub test (`ApiApplicationTests.java`)
