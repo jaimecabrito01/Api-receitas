@@ -78,12 +78,13 @@ cd frontend && bun run build
 
 - `postgres-credentials`: created manually or via SealedSecret
 - `jwt-keys`: managed via SealedSecret (`k8s/security/jwt-sealedsecret.yaml`)
+- `postgres-credentials`: managed via SealedSecret (`k8s/security/postgres-sealedsecret.yaml`)
 
-To regenerate the sealed JWT keys after rotating them:
+To regenerate both sealed secrets after rotating keys:
 ```bash
-bash ~/Projetos/devops/receitas-app-infra/k8s/security/seal-jwt-keys.sh
+bash ~/Projetos/devops/receitas-app-infra/k8s/security/seal-secrets.sh
 ```
-Then commit the updated `jwt-sealedsecret.yaml` — ArgoCD syncs automatically.
+Then commit the updated `*-sealedsecret.yaml` files — ArgoCD syncs automatically.
 
 ## Conventions
 
