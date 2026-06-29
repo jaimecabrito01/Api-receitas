@@ -82,7 +82,7 @@ cd frontend && bun run build
 
 To regenerate both sealed secrets after rotating keys:
 ```bash
-bash ~/Projetos/devops/receitas-app-infra/k8s/security/seal-secrets.sh
+bash ~/Projetos/devops/receitas-app-infra/k8s/app/security/seal-secrets.sh
 ```
 Then commit the updated `*-sealedsecret.yaml` files — ArgoCD syncs automatically.
 
