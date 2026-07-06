@@ -65,7 +65,7 @@ async function login() {
   loading.value = true
 
   try {
-    const response = await axios.post(' /authenticate', {
+    const response = await axios.post('/authenticate', {
       email: email.value,
       password: password.value
     })
