@@ -2,35 +2,74 @@ name: Build and Push
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   backend:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
+
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Short SHA
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Login GHCR
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker build -t ghcr.io/${{ github.repository_owner }}/api-receitas-backend:latest ./api
-      - run: docker push ghcr.io/${{ github.repository_owner }}/api-receitas-backend:latest
+
+      - name: Build Backend
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/api-receitas-backend:${IMAGE_TAG} \
+            ./api
+
+      - name: Push Backend
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/api-receitas-backend:${IMAGE_TAG}
 
   frontend:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
+
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Short SHA
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Login GHCR
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker build -t ghcr.io/${{ github.repository_owner }}/api-receitas-frontend:latest ./frontend
-      - run: docker push ghcr.io/${{ github.repository_owner }}/api-receitas-frontend:latest
+
+      - name: Build Frontend
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/api-receitas-frontend:${IMAGE_TAG} \
+            ./frontend
+
+      - name: Push Frontend
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/api-receitas-frontend:${IMAGE_TAG}
