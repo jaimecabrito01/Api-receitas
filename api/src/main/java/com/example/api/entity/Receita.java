@@ -28,6 +28,8 @@ public class Receita {
 
     private String titulo;
     private String descricao;
+    private String imagem;
+    private String categoria;
     private List<String> ingredientes;
     private List<String>  passos;
     private LocalDateTime createdAt = LocalDateTime.now();

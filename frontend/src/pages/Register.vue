@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="d-flex justify-content-center align-items-center bg-light" style="min-height: calc(100vh - 115px);">
     <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px;">
       <div class="card-body">
         <h2 class="text-center mb-4 fw-bold text-primary"> 

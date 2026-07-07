@@ -8,6 +8,8 @@ public class ReceitaResponseDTO {
     private Long id;
     private String titulo;
     private String descricao;
+    private String imagem;
+    private String categoria;
     private List<String> ingredientes;
     private List<String> passos;
     private LocalDateTime createdAt;
@@ -15,11 +17,13 @@ public class ReceitaResponseDTO {
 
     public ReceitaResponseDTO() {}
 
-    public ReceitaResponseDTO(Long id,String titulo, String descricao, List<String> ingredientes, List<String> passos,
+    public ReceitaResponseDTO(Long id, String titulo, String descricao, String imagem, String categoria, List<String> ingredientes, List<String> passos,
                               LocalDateTime createdAt, String usuarioNome) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.imagem = imagem;
+        this.categoria = categoria;
         this.ingredientes = ingredientes;
         this.passos = passos;
         this.createdAt = createdAt;
@@ -40,6 +44,22 @@ public class ReceitaResponseDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public List<String> getIngredientes() {
@@ -81,5 +101,4 @@ public class ReceitaResponseDTO {
     public void setId(Long id) {
         this.id = id;
     }
-    
 }

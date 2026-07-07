@@ -128,7 +128,6 @@ async function atualizarPerfil() {
 <style scoped>
 .container {
   max-width: 500px;
-  margin-top: 100px;
   background: #ffffff;
   border-radius: 12px;
   padding: 2rem;

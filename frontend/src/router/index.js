@@ -7,10 +7,12 @@ import Login from "../pages/Login.vue";
 import EditarPerfil from "../pages/EditarPerfil.vue";
 import Receitas from "../pages/Receitas.vue";
 import EditarReceita from "../pages/EditarReceita.vue";
+import ReceitaDetalhe from "../pages/ReceitaDetalhe.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/receitas", name: "TodasReceitas", component: TodasReceitas },
+  { path: "/receitas/:id", name: "ReceitaDetalhe", component: ReceitaDetalhe },
   { path: "/criar-receita", name: "CriarReceita", component: CriarReceita, meta: {requiresAuth:true} },
   { path: "/register", name:"Registrar", component:Register},
   { path: "/login", name: "login", component:Login },
@@ -18,8 +20,6 @@ const routes = [
   {path:"/editar-receita/:id",name:"editar-receita",component:EditarReceita,meta:{requiresAuth:true}},
   {path: "/minhas-receitas",name:"minhas-receitas",component: Receitas, meta:{requiresAuth:true}}
 ];
-
-
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,12 +33,11 @@ router.beforeEach((to, from, next) => {
     return
   }
   if (to.meta.requiresAuth && !token) {
-   
+
     next("/login");
   } else {
     next();
   }
 });
-
 
 export default router;

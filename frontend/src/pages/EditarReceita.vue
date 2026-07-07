@@ -1,8 +1,7 @@
 <template>
     <div class="container py-5">
-        <h1 class="mb-5 text-center text-dark"> <img src="../assets/edit.png" alt="">Editar Receita</h1>
+        <h1 class="mb-5 text-center text-dark">Editar Receita</h1>
 
-        
         <div v-if="statusMessage"
              :class="{'alert-success': !isError, 'alert-danger': isError}"
              class="alert alert-dismissible fade show mx-auto" style="max-width: 700px;" role="alert">
@@ -10,18 +9,15 @@
             <button type="button" class="btn-close" @click="statusMessage = null" aria-label="Close"></button>
         </div>
 
-        
         <div v-if="loading" class="text-center text-muted py-5 mx-auto" style="max-width: 700px;">
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Carregando...</span>
             </div>
             <p class="mt-2">Carregando dados da receita...</p>
         </div>
-        
-    
+
         <form v-else @submit.prevent="atualizarReceita" class="card shadow-lg p-4 mx-auto" style="max-width: 700px;">
-            
-            
+
             <div class="mb-3">
                 <label class="form-label fw-bold">Título:</label>
                 <input
@@ -33,7 +29,6 @@
                 />
             </div>
 
-            
             <div class="mb-3">
                 <label class="form-label fw-bold">Descrição:</label>
                 <textarea
@@ -45,7 +40,31 @@
                 ></textarea>
             </div>
 
-            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Categoria:</label>
+                <select v-model="receita.categoria" class="form-select" required>
+                    <option value="" disabled>Selecione uma categoria</option>
+                    <option value="Pratos Principais">Pratos Principais</option>
+                    <option value="Sobremesas">Sobremesas</option>
+                    <option value="Massas">Massas</option>
+                    <option value="Lanches">Lanches</option>
+                    <option value="Cafés">Cafés</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Imagem da Receita:</label>
+                <div v-if="receita.imagem" class="mb-2">
+                    <img :src="receita.imagem" alt="Imagem atual" class="img-thumbnail" style="max-height: 150px;" />
+                </div>
+                <input
+                    type="file"
+                    accept="image/*"
+                    class="form-control"
+                    @change="onFileSelected"
+                />
+            </div>
+
             <div class="mb-4">
                 <label class="form-label fw-bold">Ingredientes:</label>
                 <div v-for="(ingrediente, index) in receita.ingredientes" :key="index" class="input-group mb-2">
@@ -64,16 +83,15 @@
                         Remover
                     </button>
                 </div>
-                <button 
-                    type="button" 
-                    class="btn btn-outline-primary btn-sm mt-2" 
+                <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm mt-2"
                     @click="adicionarIngrediente"
                 >
                     + Adicionar ingrediente
                 </button>
             </div>
 
-            
             <div class="mb-4">
                 <label class="form-label fw-bold">Passos:</label>
                 <div v-for="(passo, index) in receita.passos" :key="index" class="input-group mb-2">
@@ -92,26 +110,25 @@
                         Remover
                     </button>
                 </div>
-                <button 
-                    type="button" 
-                    class="btn btn-outline-primary btn-sm mt-2" 
+                <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm mt-2"
                     @click="adicionarPasso"
                 >
                     + Adicionar passo
                 </button>
             </div>
 
-            
             <div class="d-flex justify-content-between mt-4">
                 <button type="submit" class="btn btn-success" :disabled="isSaving">
-                    <span v-if="!isSaving"> <img src="../assets/save.png" alt="">Salvar Alterações</span>
+                    <span v-if="!isSaving">Salvar Alterações</span>
                     <span v-else>Salvando...</span>
                 </button>
                 <button type="button" class="btn btn-secondary" @click="voltar">
-                    <img src="../assets/cancel.png" alt="">Cancelar
+                    Cancelar
                 </button>
             </div>
-            
+
         </form>
     </div>
 </template>
@@ -119,58 +136,62 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
-    import api from '../services/api'; 
-    
+    import api from '../services/api';
+
     const route = useRoute();
     const router = useRouter();
-    
+
     const loading = ref(true);
     const isSaving = ref(false);
     const statusMessage = ref(null);
     const isError = ref(false);
-    
+    const selectedFile = ref(null);
+
     const receita = ref({
         titulo: "",
         descricao: "",
-        ingredientes: [], 
-        passos: []       
+        categoria: "",
+        imagem: "",
+        ingredientes: [],
+        passos: []
     });
 
+    function onFileSelected(event) {
+        selectedFile.value = event.target.files[0] || null;
+    }
 
     onMounted(async () => {
-        const id = route.params.id; 
+        const id = route.params.id;
         const token = localStorage.getItem("token");
-        
+
         try {
             statusMessage.value = null;
-            
+
             const response = await api.get(`/receitas/${id}`, {
                  headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             let fetchedData = response.data;
-            
+
             if (fetchedData && typeof fetchedData.present === 'boolean' && fetchedData.value) {
                 fetchedData = fetchedData.value;
             }
-            
+
             if (fetchedData) {
-                receita.value = fetchedData; 
-                
-                if (!receita.value.ingredientes) {
-                    receita.value.ingredientes = [];
-                }
-                if (!receita.value.passos) {
-                    receita.value.passos = [];
-                }
+                receita.value = {
+                    ...fetchedData,
+                    ingredientes: fetchedData.ingredientes || [],
+                    passos: fetchedData.passos || [],
+                    categoria: fetchedData.categoria || "",
+                };
             } else {
-                 statusMessage.value = "❌ Resposta da API vazia ou inválida.";
+                 statusMessage.value = "Resposta da API vazia ou inválida.";
                  isError.value = true;
             }
-            
+
         } catch (error) {
             console.error("Erro ao buscar receita:", error);
-            statusMessage.value = "❌ Erro ao carregar a receita. Verifique a conexão com a API.";
+            statusMessage.value = "Erro ao carregar a receita. Verifique a conexão com a API.";
             isError.value = true;
         } finally {
             loading.value = false;
@@ -179,40 +200,51 @@
 
     const atualizarReceita = async () => {
         isSaving.value = true;
-        statusMessage.value = null; 
+        statusMessage.value = null;
         isError.value = false;
-        
+
         const id = route.params.id;
         const token = localStorage.getItem("token");
-        
+
         const receitaParaSalvar = {
             ...receita.value,
-            id: id, 
+            id: id,
             ingredientes: receita.value.ingredientes.map(i => i.trim()).filter(i => i.length > 0),
             passos: receita.value.passos.map(p => p.trim()).filter(p => p.length > 0),
         };
 
         if (!receitaParaSalvar.titulo || receitaParaSalvar.ingredientes.length === 0 || receitaParaSalvar.passos.length === 0) {
-             statusMessage.value = "⚠️ Preencha o título e adicione pelo menos um ingrediente e um passo.";
+             statusMessage.value = "Preencha o título e adicione pelo menos um ingrediente e um passo.";
              isError.value = true;
              isSaving.value = false;
              return;
         }
-        
+
         try {
            await api.put(`/receitas/update/${id}`, receitaParaSalvar, {
-    headers: { Authorization: `Bearer ${token}` }
-});
-            
-            statusMessage.value = "✅ Receita atualizada com sucesso! Redirecionando...";
-            
+                headers: { Authorization: `Bearer ${token}` }
+           });
+
+           if (selectedFile.value) {
+               const formData = new FormData();
+               formData.append("file", selectedFile.value);
+               await api.post(`/receitas/${id}/imagem`, formData, {
+                   headers: {
+                       Authorization: `Bearer ${token}`,
+                       "Content-Type": "multipart/form-data",
+                   },
+               });
+           }
+
+            statusMessage.value = "Receita atualizada com sucesso! Redirecionando...";
+
             setTimeout(() => {
                  router.push("/minhas-receitas");
             }, 2000);
-            
+
         } catch (error) {
             console.error("Erro ao atualizar receita:", error);
-            statusMessage.value = `❌ Erro ao salvar as alterações: ${error.response?.data?.message || 'Falha na conexão com o servidor.'}`;
+            statusMessage.value = `Erro ao salvar as alterações: ${error.response?.data?.message || 'Falha na conexão com o servidor.'}`;
             isError.value = true;
         } finally {
             isSaving.value = false;
@@ -221,18 +253,18 @@
 
     const adicionarIngrediente = () => receita.value.ingredientes.push("");
     const removerIngrediente = (index) => receita.value.ingredientes.splice(index, 1);
-    
+
     const adicionarPasso = () => receita.value.passos.push("");
     const removerPasso = (index) => receita.value.passos.splice(index, 1);
-    
-    const voltar = () => router.push("/minhas-receitas"); 
+
+    const voltar = () => router.push("/minhas-receitas");
 
 </script>
 
 <style scoped>
     .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        border-color: #651F1F;
+        box-shadow: 0 0 0 0.25rem rgba(101, 31, 31, 0.25);
     }
     .card {
         border-radius: 12px;

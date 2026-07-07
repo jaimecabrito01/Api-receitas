@@ -13,22 +13,28 @@
         :key="receita.id"
         class="card receita-card"
       >
+        <div
+          v-if="receita.imagem"
+          class="card-img-top receita-img"
+          :style="{ backgroundImage: `url(${receita.imagem})` }"
+        ></div>
         <div class="card-body">
           <h5 class="card-title fw-bold">{{ receita.titulo }}</h5>
+          <span v-if="receita.categoria" class="categoria-badge">{{ receita.categoria }}</span>
           <p class="card-text text-muted">{{ receita.descricao }}</p>
           <p class="card-text text-secondary small">
             Criado em: {{ formatarData(receita.createdAt) }}
           </p>
           <hr />
 
-          <h6 class="fw-semibold"> <img src="../assets/receita.png" alt=""> Ingredientes:</h6>
+          <h6 class="fw-semibold">Ingredientes:</h6>
           <ul class="list-unstyled ms-2">
             <li v-for="(ingrediente, i) in receita.ingredientes" :key="i">
               - {{ ingrediente }}
             </li>
           </ul>
 
-          <h6 class="fw-semibold mt-3"> <img src="../assets/chef.png" alt=""> Modo de Preparo:</h6>
+          <h6 class="fw-semibold mt-3">Modo de Preparo:</h6>
           <ol class="ms-3">
             <li v-for="(passo, i) in receita.passos" :key="i">
               {{ passo }}
@@ -40,13 +46,13 @@
               :to="`/editar-receita/${receita.id}`"
               class="btn btn-primary btn-sm"
             >
-              <img src="../assets/edit.png" alt=""> Editar
+              Editar
             </router-link>
             <button
               @click="deletarReceita(receita.id)"
               class="btn btn-danger btn-sm"
             >
-              <img src="../assets/delete2.png" alt="">Excluir
+              Excluir
             </button>
           </div>
         </div>
@@ -103,10 +109,30 @@ onMounted(carregarReceitas);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  overflow: hidden;
 }
 .receita-card:hover {
   transform: translateY(-4px);
 }
+
+.receita-img {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-color: #e0d6cc;
+}
+
+.categoria-badge {
+  display: inline-block;
+  background-color: var(--bg-warm, #FFF3E0);
+  color: var(--primary, #651F1F);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.7rem;
+  border-radius: 10px;
+  margin-bottom: 0.3rem;
+}
+
 .btn {
   border-radius: 8px;
 }

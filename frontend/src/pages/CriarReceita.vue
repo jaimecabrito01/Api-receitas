@@ -25,6 +25,28 @@
       </div>
 
       <div class="mb-3">
+        <label class="form-label fw-bold">Categoria:</label>
+        <select v-model="categoria" class="form-select" required>
+          <option value="" disabled>Selecione uma categoria</option>
+          <option value="Pratos Principais">Pratos Principais</option>
+          <option value="Sobremesas">Sobremesas</option>
+          <option value="Massas">Massas</option>
+          <option value="Lanches">Lanches</option>
+          <option value="Cafés">Cafés</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Imagem da Receita:</label>
+        <input
+          type="file"
+          accept="image/*"
+          class="form-control"
+          @change="onFileSelected"
+        />
+      </div>
+
+      <div class="mb-3">
         <label class="form-label fw-bold">Ingredientes:</label>
 
         <div v-for="(ingrediente, index) in ingredientes" :key="index" class="input-group mb-2">
@@ -74,12 +96,11 @@
         </button>
       </div>
 
-      <button type="submit" class="btn btn-success w-100 mt-3">
-        Criar Receita
+      <button type="submit" class="btn btn-primary w-100 mt-3" :disabled="saving">
+        {{ saving ? 'Criando...' : 'Criar Receita' }}
       </button>
     </form>
 
-    <!-- 🔔 Toast de sucesso -->
     <div
       class="toast-container position-fixed bottom-0 end-0 p-3"
       style="z-index: 1050"
@@ -111,8 +132,11 @@ import { useRouter } from "vue-router";
 
 const titulo = ref("");
 const descricao = ref("");
+const categoria = ref("");
 const ingredientes = ref([""]);
 const passos = ref([""]);
+const selectedFile = ref(null);
+const saving = ref(false);
 const toastMessage = ref("");
 const toastClass = ref("bg-success");
 const router = useRouter();
@@ -120,7 +144,11 @@ const router = useRouter();
 function showToast(message, type = "success") {
   toastMessage.value = message;
   toastClass.value = type === "success" ? "bg-success" : "bg-danger";
-  setTimeout(() => (toastMessage.value = ""), 4000); // some sozinho após 4s
+  setTimeout(() => (toastMessage.value = ""), 4000);
+}
+
+function onFileSelected(event) {
+  selectedFile.value = event.target.files[0] || null;
 }
 
 function adicionarIngrediente() {
@@ -137,31 +165,50 @@ function removerPasso(index) {
 }
 
 async function criarReceita() {
+  saving.value = true;
   const payload = {
     titulo: titulo.value,
     descricao: descricao.value,
+    categoria: categoria.value,
     ingredientes: ingredientes.value,
     passos: passos.value,
   };
 
   try {
-    await api.post("/receitas/add", payload, {
+    const response = await api.post("/receitas/add", payload, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
 
+    const receitaId = response.data.id;
+
+    if (selectedFile.value && receitaId) {
+      const formData = new FormData();
+      formData.append("file", selectedFile.value);
+      await api.post(`/receitas/${receitaId}/imagem`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+
     showToast("Receita criada com sucesso!", "success");
 
     titulo.value = "";
     descricao.value = "";
+    categoria.value = "";
     ingredientes.value = [""];
     passos.value = [""];
+    selectedFile.value = null;
 
     setTimeout(() => router.push("/"), 1500);
   } catch (error) {
     console.error("Erro ao criar receita:", error);
     showToast("Erro ao criar receita!", "error");
+  } finally {
+    saving.value = false;
   }
 }
 </script>
